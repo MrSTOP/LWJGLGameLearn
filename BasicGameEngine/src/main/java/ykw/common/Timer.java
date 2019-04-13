@@ -1,24 +1,38 @@
 package ykw.common;
 
 public class Timer {
-    private double lastLoopTime;
+    private long previousLoopTime;
+    private long accumulator = 0;
 
     public void init() {
-        lastLoopTime = getTime();
+        previousLoopTime = getTime();
     }
 
-    public double getTime() {
-        return System.nanoTime();
+    public long getTime() {
+        return System.currentTimeMillis();
     }
 
-    public float getElapsedTime() {
-        double time = getTime();
-        float elapsedTime = (float) (time - lastLoopTime);
-        lastLoopTime = time;
+    public long getAccumulator() {
+        accumulator += getElapsedTime();
+        return accumulator;
+    }
+
+    public void accumulatorDec(long dec) {
+        this.accumulator -= dec;
+    }
+
+    public void setAccumulator(long accumulator) {
+        this.accumulator = accumulator;
+    }
+
+    public long getElapsedTime() {
+        long currentTime = getTime();
+        long elapsedTime = currentTime - previousLoopTime;
+        previousLoopTime = currentTime;
         return elapsedTime;
     }
 
-    public double getLastLoopTime() {
-        return lastLoopTime;
+    public long getPreviousLoopTime() {
+        return previousLoopTime;
     }
 }
