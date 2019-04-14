@@ -1,9 +1,6 @@
 package ykw.engine;
 
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
@@ -24,6 +21,14 @@ public class Window {
             if (key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE) {
                 GLFW.glfwSetWindowShouldClose(window, true);
             }
+        }
+    };
+    private GLFWFramebufferSizeCallback framebufferSizeCallback = new GLFWFramebufferSizeCallback() {
+        @Override
+        public void invoke(long window, int width, int height) {
+            windowWidth = width;
+            windowHeight = height;
+            setResized(true);
         }
     };
 
@@ -55,11 +60,7 @@ public class Window {
         }
 
         //设置窗口大小调整的回调函数
-        GLFW.glfwSetFramebufferSizeCallback(windowHandle, (window, width, height) -> {
-            this.windowWidth = width;
-            this.windowHeight = height;
-            this.setResized(true);
-        });
+        GLFW.glfwSetFramebufferSizeCallback(windowHandle, framebufferSizeCallback);
 
         //设置按键回调函数
         GLFW.glfwSetKeyCallback(windowHandle, keyCallback);
@@ -111,6 +112,7 @@ public class Window {
         GLFW.glfwTerminate();
         this.errorCallback.free();
         this.keyCallback.free();
+        this.framebufferSizeCallback.free();
     }
 
     public String getWindowTitle() {
