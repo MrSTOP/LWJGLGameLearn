@@ -72,11 +72,8 @@ public class ColorGame implements IGameLogic {
             lastR = current;
             isFirstR = true;
         }
-        if (window.isResized()) {
-            GL11.glViewport(0, 0, window.getWindowWidth(), window.getWindowHeight());
-            window.setResized(false);
-        }
         window.setGLClearColor(red, green, blue, 0.0F);
+        renderer.render(window);
         renderer.clear();
     }
 
