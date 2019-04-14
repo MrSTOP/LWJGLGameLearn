@@ -7,12 +7,13 @@ import org.lwjgl.system.MemoryUtil;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Mesh {
     private final int VAO;
-    private final int VBO;
+    private final List<Integer> VBOs;
     private final int EBO;
-    private final int colorID;
     private final int vertexCount;
 
     public Mesh(float[] vertices, float[] colors, int[] indices) {
@@ -21,26 +22,29 @@ public class Mesh {
         IntBuffer indicesBuffer = null;
         try {
             vertexCount = indices.length;
+            VBOs = new ArrayList<>();
 
             VAO = GL30.glGenVertexArrays();
-            VBO = GL15.glGenBuffers();
-            EBO = GL15.glGenBuffers();
-            colorID = GL15.glGenBuffers();
 
             GL30.glBindVertexArray(VAO);
 
+            int VBO = GL15.glGenBuffers();
+            VBOs.add(VBO);
             verticesBuffer = MemoryUtil.memAllocFloat(vertices.length);
             verticesBuffer.put(vertices).flip();
             GL15.glBindBuffer(GL30.GL_ARRAY_BUFFER, VBO);
             GL15.glBufferData(GL30.GL_ARRAY_BUFFER, verticesBuffer, GL30.GL_STATIC_DRAW);
             GL30.glVertexAttribPointer(0, 3, GL30.GL_FLOAT, false, 0, 0);
 
+            VBO = GL30.glGenBuffers();
+            VBOs.add(VBO);
             colorsBuffer = MemoryUtil.memAllocFloat(colors.length);
             colorsBuffer.put(colors).flip();
-            GL15.glBindBuffer(GL30.GL_ARRAY_BUFFER, colorID);
+            GL15.glBindBuffer(GL30.GL_ARRAY_BUFFER, VBO);
             GL15.glBufferData(GL30.GL_ARRAY_BUFFER, colorsBuffer, GL15.GL_STATIC_DRAW);
             GL30.glVertexAttribPointer(1, 3, GL11.GL_FLOAT, false, 0, 0);
 
+            EBO = GL15.glGenBuffers();
             indicesBuffer = MemoryUtil.memAllocInt(indices.length);
             indicesBuffer.put(indices).flip();
             GL15.glBindBuffer(GL30.GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -66,9 +70,9 @@ public class Mesh {
         GL30.glDisableVertexAttribArray(0);
 
         GL30.glBindBuffer(GL30.GL_ARRAY_BUFFER, 0);
-        GL30.glDeleteBuffers(VBO);
-        GL30.glBindBuffer(GL30.GL_ARRAY_BUFFER, 0);
-        GL30.glDeleteBuffers(colorID);
+        for (int VBO: VBOs) {
+            GL15.glDeleteBuffers(VBO);
+        }
 
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
         GL15.glDeleteBuffers(EBO);
