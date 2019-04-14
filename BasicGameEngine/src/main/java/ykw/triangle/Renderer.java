@@ -23,6 +23,7 @@ public class Renderer {
     }
 
     public void render(Window window, Mesh mesh) {
+        window.setGLClearColor(0.5F, 0.8F, 0.2F, 1.0F);
         clear();
         if (window.isResized()) {
             GL11.glViewport(0, 0, window.getWindowWidth(), window.getWindowHeight());
@@ -32,9 +33,11 @@ public class Renderer {
         shaderProgram.bind();
         GL30.glBindVertexArray(mesh.getVAO());
         GL30.glEnableVertexAttribArray(0);
+        GL30.glEnableVertexAttribArray(1);
         GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 
         GL30.glDisableVertexAttribArray(0);
+        GL30.glDisableVertexAttribArray(1);
         GL30.glBindVertexArray(0);
         shaderProgram.unbind();
     }

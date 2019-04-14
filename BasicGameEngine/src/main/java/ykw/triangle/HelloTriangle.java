@@ -26,7 +26,13 @@ public class HelloTriangle implements IGameLogic {
             0, 1, 3,
             3, 1, 2
         };
-        mesh = new Mesh(positions, indices);
+        float[] colors = new float[]{
+                0.5F, 0.0F, 0.0F,
+                0.0F, 0.5F, 0.0F,
+                0.0F, 0.0F, 0.5F,
+                0.0F, 0.5F, 0.5F
+        };
+        mesh = new Mesh(positions, colors, indices);
     }
 
     @Override
