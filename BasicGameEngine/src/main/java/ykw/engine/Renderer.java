@@ -1,4 +1,4 @@
-package ykw.common;
+package ykw.engine;
 
 import org.lwjgl.opengl.GL11;
 

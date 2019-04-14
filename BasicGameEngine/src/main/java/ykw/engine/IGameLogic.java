@@ -1,4 +1,4 @@
-package ykw.common;
+package ykw.engine;
 
 public interface IGameLogic {
 

@@ -1,7 +1,7 @@
 package ykw;
 
-import ykw.common.GameEngine;
-import ykw.common.IGameLogic;
+import ykw.engine.GameEngine;
+import ykw.engine.IGameLogic;
 
 public class Main {
     public static void main(String[] args) {

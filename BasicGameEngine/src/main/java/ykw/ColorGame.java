@@ -2,9 +2,9 @@ package ykw;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
-import ykw.common.IGameLogic;
-import ykw.common.Renderer;
-import ykw.common.Window;
+import ykw.engine.IGameLogic;
+import ykw.engine.Renderer;
+import ykw.engine.Window;
 
 public class ColorGame implements IGameLogic {
     private int direction = 0;
