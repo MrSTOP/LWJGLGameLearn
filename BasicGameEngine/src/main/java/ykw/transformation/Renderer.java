@@ -34,6 +34,8 @@ public class Renderer {
         clear();
         if (window.isResized()) {
             GL11.glViewport(0, 0, window.getWindowWidth(), window.getWindowHeight());
+            float aspectRation = (float) window.getWindowWidth() / window.getWindowHeight();
+            projectionMatrix.setPerspective(FOV, aspectRation, Z_NEAR, Z_FAR);
             window.setResized(false);
         }
 
