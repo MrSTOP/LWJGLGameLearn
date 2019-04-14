@@ -1,4 +1,4 @@
-package ykw;
+package ykw.start;
 
 import ykw.engine.GameEngine;
 import ykw.engine.IGameLogic;

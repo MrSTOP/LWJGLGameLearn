@@ -1,4 +1,4 @@
-package ykw;
+package ykw.start;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
