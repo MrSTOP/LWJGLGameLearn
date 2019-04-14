@@ -80,6 +80,11 @@ public class ColorGame implements IGameLogic {
         renderer.clear();
     }
 
+    @Override
+    public void cleanup() {
+        
+    }
+
     private void updateColor() {
         blue += 0.125F;
         if (blue > 1) {
