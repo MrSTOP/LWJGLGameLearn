@@ -82,7 +82,7 @@ public class ColorGame implements IGameLogic {
 
     @Override
     public void cleanup() {
-        
+        renderer.cleanup();
     }
 
     private void updateColor() {
