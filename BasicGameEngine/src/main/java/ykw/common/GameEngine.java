@@ -5,6 +5,7 @@ public class GameEngine implements Runnable {
     private static final int TARGET_FRAME_PER_SECOND = 75;
     private static final int TARGET_TICK_PER_SECOND = 20;
     private static final int MILLISECOND_PER_TICK = 1000 / TARGET_TICK_PER_SECOND;
+    private static final int MILLISECOND_PER_FRAME = 1000 / TARGET_FRAME_PER_SECOND;
     private final Window window;
     private final Thread gameLoopThread;
     private final Timer timer;
@@ -38,11 +39,8 @@ public class GameEngine implements Runnable {
     }
 
     protected void gameLoop() {
-        float elapsedTime;
         boolean running = true;
         while (running && !window.windowShouldClose()) {
-
-
             input();
 
             while (timer.getAccumulator() >= MILLISECOND_PER_TICK) {
@@ -56,12 +54,12 @@ public class GameEngine implements Runnable {
                 sync();
             }
         }
+        window.closeWindow();
     }
 
     private void sync() {
-        float loopSlot = 1F / TARGET_FRAME_PER_SECOND;
-        double endTime = timer.getPreviousLoopTime() + loopSlot;
-        while (timer.getTime() < endTime) {
+        long endTime = timer.getPreviousLoopTime() + MILLISECOND_PER_FRAME;
+        while (timer.currentTimeMillis() < endTime) {
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
@@ -79,7 +77,7 @@ public class GameEngine implements Runnable {
     }
 
     protected void render(double percentage) {
-        gameLogic.render(window);
+        gameLogic.render(window, percentage);
         window.update();
     }
 }

@@ -5,15 +5,19 @@ public class Timer {
     private long accumulator = 0;
 
     public void init() {
-        previousLoopTime = getTime();
+        previousLoopTime = currentTimeMillis();
+        accumulator = 0;
     }
 
-    public long getTime() {
+    public long currentTimeMillis() {
         return System.currentTimeMillis();
     }
 
     public long getAccumulator() {
-        accumulator += getElapsedTime();
+        long currentTime = currentTimeMillis();
+        long elapsedTime = currentTime - previousLoopTime;
+        previousLoopTime = currentTime;
+        accumulator += elapsedTime;
         return accumulator;
     }
 
@@ -23,13 +27,6 @@ public class Timer {
 
     public void setAccumulator(long accumulator) {
         this.accumulator = accumulator;
-    }
-
-    public long getElapsedTime() {
-        long currentTime = getTime();
-        long elapsedTime = currentTime - previousLoopTime;
-        previousLoopTime = currentTime;
-        return elapsedTime;
     }
 
     public long getPreviousLoopTime() {
