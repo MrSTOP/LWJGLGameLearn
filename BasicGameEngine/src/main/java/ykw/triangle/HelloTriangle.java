@@ -19,12 +19,14 @@ public class HelloTriangle implements IGameLogic {
         float[] positions = new float[]{
                 -0.5F,  0.5F,  0.0F,
                 -0.5F, -0.5F,  0.0F,
-                 0.5F,  0.5F,  0.0F,
-                 0.5F,  0.5F,  0.0F,
-                -0.5F, -0.5F,  0.0F,
-                 0.5F, -0.5F,  0.0F
+                 0.5F, -0.5F,  0.0F,
+                 0.5F,  0.5F,  0.0F
         };
-        mesh = new Mesh(positions);
+        int[] indices = new int[]{
+            0, 1, 3,
+            3, 1, 2
+        };
+        mesh = new Mesh(positions, indices);
     }
 
     @Override

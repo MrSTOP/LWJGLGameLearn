@@ -32,7 +32,7 @@ public class Renderer {
         shaderProgram.bind();
         GL30.glBindVertexArray(mesh.getVAO());
         GL30.glEnableVertexAttribArray(0);
-        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, mesh.getVertexCount());
+        GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 
         GL30.glDisableVertexAttribArray(0);
         GL30.glBindVertexArray(0);
