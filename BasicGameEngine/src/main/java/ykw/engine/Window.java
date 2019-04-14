@@ -84,6 +84,7 @@ public class Window {
 
         GL.createCapabilities();
         GL11.glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
         //OpenGL初始化结束
     }
 
