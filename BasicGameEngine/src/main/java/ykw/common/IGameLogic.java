@@ -8,5 +8,5 @@ public interface IGameLogic {
 
     void update(int interval);
 
-    void render(Window window);
+    void render(Window window, double percentage);
 }
