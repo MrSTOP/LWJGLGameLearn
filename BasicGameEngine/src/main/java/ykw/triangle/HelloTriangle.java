@@ -14,7 +14,7 @@ public class HelloTriangle implements IGameLogic {
     }
 
     @Override
-    public void init() throws Exception {
+    public void init(Window window) throws Exception {
         renderer.init();
         float[] positions = new float[]{
                 -0.5F,  0.5F,  0.0F,

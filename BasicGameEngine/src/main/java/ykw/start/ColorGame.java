@@ -21,7 +21,7 @@ public class ColorGame implements IGameLogic {
     }
 
     @Override
-    public void init() throws Exception {
+    public void init(Window window) throws Exception {
         this.renderer.init();
         last = System.currentTimeMillis();
     }
