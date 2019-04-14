@@ -35,7 +35,13 @@ public class GameEngine implements Runnable {
             gameLoop();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            cleanup();
         }
+    }
+
+    private void cleanup() {
+        gameLogic.cleanup();
     }
 
     protected void gameLoop() {
