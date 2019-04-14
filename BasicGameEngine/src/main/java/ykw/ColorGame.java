@@ -68,13 +68,15 @@ public class ColorGame implements IGameLogic {
             isFirstR = false;
         } else {
             long current = System.currentTimeMillis();
-            System.out.println("RMS: " + (current - lastR));
+            long msPerFrame = current - lastR;
+            if (msPerFrame < 15 || msPerFrame > 18) {
+                System.out.println("FMS: " + msPerFrame);
+            }
             lastR = current;
             isFirstR = true;
         }
         window.setGLClearColor(red, green, blue, 0.0F);
         renderer.render(window);
-        renderer.clear();
     }
 
     @Override
