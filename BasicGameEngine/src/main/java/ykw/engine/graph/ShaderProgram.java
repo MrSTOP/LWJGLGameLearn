@@ -1,17 +1,25 @@
 package ykw.engine.graph;
 
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.system.MemoryStack;
+
+import java.nio.FloatBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ShaderProgram {
     private final int programID;
     private int vertexShaderID;
     private int fragmentShaderID;
+    private final Map<String, Integer> uniforms;
 
     public ShaderProgram() throws IllegalStateException {
         programID = GL20.glCreateProgram();
         if (programID == 0) {
             throw new IllegalStateException("Could not create Shader");
         }
+        uniforms = new HashMap<>();
     }
 
     public void createVertexShader(String shaderCode) throws IllegalStateException {
@@ -20,6 +28,22 @@ public class ShaderProgram {
 
     public void createFragmentShader(String shaderCode) throws IllegalStateException {
         fragmentShaderID = createShader(shaderCode, GL20.GL_FRAGMENT_SHADER);
+    }
+
+    public void createUniform(String uniformName) throws IllegalArgumentException {
+        int uniformLocation = GL20.glGetUniformLocation(programID, uniformName);
+        if (uniformLocation < 0) {
+            throw new IllegalArgumentException("Uniform: \"" + uniformName + "\" don\'t exist!");
+        }
+        uniforms.put(uniformName, uniformLocation);
+    }
+
+    public void setMatrix4F(String uniforName, Matrix4f matrix4f) {
+        try (MemoryStack stack = MemoryStack.stackPush()){
+            FloatBuffer floatBuffer = stack.mallocFloat(16);
+            matrix4f.get(floatBuffer);
+            GL20.glUniformMatrix4fv(uniforms.get(uniforName), false, floatBuffer);
+        }
     }
 
     public void link() throws IllegalStateException {
