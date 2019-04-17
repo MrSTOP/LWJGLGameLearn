@@ -38,12 +38,16 @@ public class ShaderProgram {
         uniforms.put(uniformName, uniformLocation);
     }
 
-    public void setMatrix4F(String uniforName, Matrix4f matrix4f) {
+    public void setMatrix4F(String uniformName, Matrix4f matrix4f) {
         try (MemoryStack stack = MemoryStack.stackPush()){
             FloatBuffer floatBuffer = stack.mallocFloat(16);
             matrix4f.get(floatBuffer);
-            GL20.glUniformMatrix4fv(uniforms.get(uniforName), false, floatBuffer);
+            GL20.glUniformMatrix4fv(uniforms.get(uniformName), false, floatBuffer);
         }
+    }
+
+    public void setUniform1I(String uniformName, int i) {
+        GL20.glUniform1i(uniforms.get(uniformName), i);
     }
 
     public void link() throws IllegalStateException {
