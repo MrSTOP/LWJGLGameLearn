@@ -39,7 +39,7 @@ public class Transform implements IGameLogic {
         int[] indices = new int[]{
                 0, 1, 3, 3, 1, 2,
         };
-        Mesh mesh = new Mesh(positions, colours, indices);
+        Mesh mesh = new Mesh(positions, colours, indices, null, null);
         GameObject gameObject = new GameObject(mesh);
         gameObject.setPosition(0, 0, -2);
         gameObjects = new ArrayList<>();

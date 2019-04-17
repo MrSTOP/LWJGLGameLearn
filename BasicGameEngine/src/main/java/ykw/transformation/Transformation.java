@@ -31,7 +31,7 @@ public class Transformation implements IGameLogic {
         int[] indices = new int[]{
                 0, 1, 3, 3, 1, 2,
         };
-        mesh = new Mesh(vertices, color, indices);
+        mesh = new Mesh(vertices, color, indices, null, null);
     }
 
     @Override

@@ -32,7 +32,7 @@ public class HelloTriangle implements IGameLogic {
                 0.0F, 0.0F, 0.5F,
                 0.0F, 0.5F, 0.5F
         };
-        mesh = new Mesh(positions, colors, indices);
+        mesh = new Mesh(positions, colors, indices, null, null);
     }
 
     @Override

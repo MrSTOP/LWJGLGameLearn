@@ -15,14 +15,17 @@ public class Mesh {
     private final List<Integer> VBOs;
     private final int EBO;
     private final int vertexCount;
+    private final Texture texture;
 
-    public Mesh(float[] vertices, float[] colors, int[] indices) {
+    public Mesh(float[] vertices, float[] colors, int[] indices, float[] textureCoord, Texture texture) {
         FloatBuffer verticesBuffer = null;
         FloatBuffer colorsBuffer = null;
+        FloatBuffer textureBuffer = null;
         IntBuffer indicesBuffer = null;
         try {
             vertexCount = indices.length;
             VBOs = new ArrayList<>();
+            this.texture = texture;
 
             VAO = GL30.glGenVertexArrays();
 
@@ -44,6 +47,14 @@ public class Mesh {
             GL15.glBufferData(GL30.GL_ARRAY_BUFFER, colorsBuffer, GL15.GL_STATIC_DRAW);
             GL30.glVertexAttribPointer(1, 3, GL11.GL_FLOAT, false, 0, 0);
 
+            VBO = GL30.glGenBuffers();
+            VBOs.add(VBO);
+            textureBuffer = MemoryUtil.memAllocFloat(textureCoord.length);
+            textureBuffer.put(textureCoord).flip();
+            GL15.glBindBuffer(GL30.GL_ARRAY_BUFFER, VBO);
+            GL15.glBufferData(GL30.GL_ARRAY_BUFFER, textureBuffer, GL15.GL_STATIC_DRAW);
+            GL30.glVertexAttribPointer(2, 2, GL30.GL_FLOAT, false, 0, 0);
+
             EBO = GL15.glGenBuffers();
             indicesBuffer = MemoryUtil.memAllocInt(indices.length);
             indicesBuffer.put(indices).flip();
@@ -62,6 +73,9 @@ public class Mesh {
             }
             if (colorsBuffer != null) {
                 MemoryUtil.memFree(colorsBuffer);
+            }
+            if (textureBuffer != null) {
+                MemoryUtil.memFree(textureBuffer);
             }
         }
     }
@@ -90,14 +104,18 @@ public class Mesh {
     }
 
     public void render() {
+        GL15.glActiveTexture(GL15.GL_TEXTURE0);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getID());
         GL30.glBindVertexArray(getVAO());
         GL30.glEnableVertexAttribArray(0);
         GL30.glEnableVertexAttribArray(1);
+        GL30.glEnableVertexAttribArray(2);
 
         GL11.glDrawElements(GL11.GL_TRIANGLES, getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 
         GL30.glDisableVertexAttribArray(0);
         GL30.glDisableVertexAttribArray(1);
+        GL30.glDisableVertexAttribArray(2);
         GL30.glBindVertexArray(0);
     }
 }
